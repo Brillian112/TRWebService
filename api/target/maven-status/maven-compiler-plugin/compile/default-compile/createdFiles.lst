@@ -1,0 +1,5 @@
+com\example\apigateway\filter\GlobalLoggingFilter.class
+com\example\apigateway\config\GatewayRouteConfig.class
+com\example\apigateway\filter\Route1LoggingFilter$Config.class
+com\example\apigateway\ApiGatewayApplication.class
+com\example\apigateway\filter\Route1LoggingFilter.class

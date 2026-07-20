@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        Spring Boot Parent: Menyediakan dependency management bawaan.
+        Versi disesuaikan dengan service-a dan service-b agar konsisten.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.1</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.example</groupId>
+    <artifactId>api-gateway</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>api-gateway</name>
+    <description>
+        API Gateway — Kelompok 7, Topik 4: API Gateway &amp; BFF.
+        Anggota 2: Konfigurasi Route 1 (User Service).
+        Menggunakan Spring Cloud Gateway (WebFlux-based reactive gateway).
+    </description>
+
+    <properties>
+        <java.version>17</java.version>
+        <!--
+            Spring Cloud Version: Sesuaikan dengan Spring Boot 3.4.x.
+            "2024.0.x" adalah release train terbaru yang kompatibel.
+        -->
+        <spring-cloud.version>2024.0.1</spring-cloud.version>
+    </properties>
+
+    <dependencies>
+
+        <!--
+            ================================================================
+            SPRING CLOUD GATEWAY
+            ================================================================
+            Dependency utama untuk membuat API Gateway.
+            Spring Cloud Gateway berbasis Project Reactor (reactive/non-blocking).
+            Tidak menggunakan spring-boot-starter-web karena memerlukan
+            WebFlux (Netty server), bukan servlet-based (Tomcat).
+            ================================================================
+        -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+
+        <!--
+            ================================================================
+            SPRING BOOT ACTUATOR
+            ================================================================
+            Menyediakan endpoint monitoring dan management:
+              /actuator/health   → status kesehatan gateway
+              /actuator/routes   → daftar semua route yang aktif
+              /actuator/metrics  → statistik request per route
+            Berguna untuk debugging dan pemantauan.
+            ================================================================
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--
+            ================================================================
+            SPRING BOOT TEST
+            ================================================================
+            Untuk unit testing dan integration testing komponen gateway.
+            ================================================================
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <!--
+        Spring Cloud BOM (Bill of Materials):
+        Mengatur versi semua library Spring Cloud secara konsisten
+        sehingga tidak ada konflik versi antar dependency.
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
