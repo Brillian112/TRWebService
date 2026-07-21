@@ -13,6 +13,7 @@
 	<artifactId>api-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-gateway</name>
+	<description>API Gateway - Route 1 (Anggota 2) + Route 2 (Anggota 3) + JWT Global Filter (Anggota 4)</description>
 	<description>API Gateway - Reverse proxy + BFF routing ke service-a (User) dan service-b (Order)</description>
 
 	<properties>
@@ -32,6 +33,8 @@
 		</dependency>
 
 		<!--
+		    Circuit Breaker (Resilience4j) - dipakai Route 1 & Route 2
+		    (kerjaan Anggota 2 & Anggota 3).
 		    Circuit Breaker (Resilience4j): membungkus setiap route
 		    supaya kalau service-a / service-b down, gateway tidak ikut
 		    hang dan bisa mengembalikan response fallback.
@@ -41,10 +44,33 @@
 			<artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
 		</dependency>
 
+		<!-- Actuator: expose endpoint /actuator/gateway/routes -->
 		<!-- Actuator: expose endpoint /actuator/gateway/routes untuk verifikasi route yang aktif -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!--
+		    JJWT — library untuk generate & validasi JSON Web Token.
+		    Dipakai oleh JwtAuthGlobalFilter (Anggota 4) dan AuthController (mock login).
+		-->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.6</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.6</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.12.6</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>

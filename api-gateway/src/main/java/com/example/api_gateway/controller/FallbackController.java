@@ -12,6 +12,7 @@ import java.util.Map;
  * FallbackController — Dipanggil otomatis oleh CircuitBreaker filter (Route 1 & Route 2)
  * ketika service-a atau service-b tidak bisa dihubungi (down, timeout, error).
  *
+ * <p><strong>Kelompok 7 | Anggota 3</strong></p>
  * Tanpa fallback ini, client akan menerima 500/timeout mentah dari gateway.
  * Dengan fallback, client menerima response yang rapi (503) yang menjelaskan
  * bahwa service tujuan sedang tidak tersedia.
