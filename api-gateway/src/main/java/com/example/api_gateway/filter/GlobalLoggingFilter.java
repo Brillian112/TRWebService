@@ -1,52 +1,54 @@
-package com.example.api_gateway.filter;
+// tidak digunakan karna sudah ada "LoggingGlobalFilter" jadi gw coment karna takut yang di pake yang ini 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Ordered;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.stereotype.Component;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
+// package com.example.api_gateway.filter;
 
-@Component
-public class GlobalLoggingFilter implements GlobalFilter, Ordered {
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
+// import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+// import org.springframework.cloud.gateway.filter.GlobalFilter;
+// import org.springframework.core.Ordered;
+// import org.springframework.http.server.reactive.ServerHttpRequest;
+// import org.springframework.stereotype.Component;
+// import org.springframework.web.server.ServerWebExchange;
+// import reactor.core.publisher.Mono;
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalLoggingFilter.class);
+// @Component
+// public class GlobalLoggingFilter implements GlobalFilter, Ordered {
 
-    @Override
-    public int getOrder() {
-        return -50;
-    }
+//     private static final Logger log = LoggerFactory.getLogger(GlobalLoggingFilter.class);
 
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpRequest request   = exchange.getRequest();
-        String            method    = request.getMethod().name();
-        String            path      = request.getPath().value();
-        String            requestId = java.util.UUID.randomUUID().toString().substring(0, 8);
-        long              startMs   = System.currentTimeMillis();
+//     @Override
+//     public int getOrder() {
+//         return -50;
+//     }
 
-        log.info("[GATEWAY][GLOBAL] ► Incoming: {} {} | ReqID: {}", method, path, requestId);
+//     @Override
+//     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+//         ServerHttpRequest request   = exchange.getRequest();
+//         String            method    = request.getMethod().name();
+//         String            path      = request.getPath().value();
+//         String            requestId = java.util.UUID.randomUUID().toString().substring(0, 8);
+//         long              startMs   = System.currentTimeMillis();
 
-        ServerHttpRequest mutatedRequest = request.mutate()
-                .header("X-Request-ID", requestId)
-                .build();
+//         log.info("[GATEWAY][GLOBAL] ► Incoming: {} {} | ReqID: {}", method, path, requestId);
 
-        ServerWebExchange mutatedExchange = exchange.mutate()
-                .request(mutatedRequest)
-                .build();
+//         ServerHttpRequest mutatedRequest = request.mutate()
+//                 .header("X-Request-ID", requestId)
+//                 .build();
 
-        return chain.filter(mutatedExchange)
-                .then(Mono.fromRunnable(() -> {
-                    long duration = System.currentTimeMillis() - startMs;
-                    int statusCode = mutatedExchange.getResponse().getStatusCode() != null
-                            ? mutatedExchange.getResponse().getStatusCode().value()
-                            : 0;
+//         ServerWebExchange mutatedExchange = exchange.mutate()
+//                 .request(mutatedRequest)
+//                 .build();
 
-                    log.info("[GATEWAY][GLOBAL] ◄ Outgoing: {} {} | Status: {} | Latency: {}ms | ReqID: {}",
-                            method, path, statusCode, duration, requestId);
-                }));
-    }
-}
+//         return chain.filter(mutatedExchange)
+//                 .then(Mono.fromRunnable(() -> {
+//                     long duration = System.currentTimeMillis() - startMs;
+//                     int statusCode = mutatedExchange.getResponse().getStatusCode() != null
+//                             ? mutatedExchange.getResponse().getStatusCode().value()
+//                             : 0;
+
+//                     log.info("[GATEWAY][GLOBAL] ◄ Outgoing: {} {} | Status: {} | Latency: {}ms | ReqID: {}",
+//                             method, path, statusCode, duration, requestId);
+//                 }));
+//     }
+// }

@@ -14,8 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-gateway</name>
 	<description>API Gateway - Route 1 (Anggota 2) + Route 2 (Anggota 3) + JWT Global Filter (Anggota 4)</description>
-	<description>API Gateway - Reverse proxy + BFF routing ke service-a (User) dan service-b (Order)</description>
-
+	
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2024.0.0</spring-cloud.version>
