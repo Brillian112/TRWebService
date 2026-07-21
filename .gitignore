@@ -1,3 +1,6 @@
-api-gateway/
+git add .gitignore
+git add api-gateway/
+git status
+git commit -m
 
 readme*
