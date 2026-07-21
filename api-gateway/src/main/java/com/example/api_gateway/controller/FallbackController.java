@@ -13,11 +13,15 @@ import java.util.Map;
  * ketika service-a atau service-b tidak bisa dihubungi (down, timeout, error).
  *
  * <p><strong>Kelompok 7 | Anggota 3</strong></p>
+ * Tanpa fallback ini, client akan menerima 500/timeout mentah dari gateway.
+ * Dengan fallback, client menerima response yang rapi (503) yang menjelaskan
+ * bahwa service tujuan sedang tidak tersedia.
  */
 @RestController
 @RequestMapping("/fallback")
 public class FallbackController {
 
+    /** Dipanggil ketika Route 1 (user-service-route) circuit breaker terbuka. */
     @GetMapping("/users")
     public ResponseEntity<Object> userServiceFallback() {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of(
@@ -27,6 +31,7 @@ public class FallbackController {
         ));
     }
 
+    /** Dipanggil ketika Route 2 (order-service-route) circuit breaker terbuka. */
     @GetMapping("/orders")
     public ResponseEntity<Object> orderServiceFallback() {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of(

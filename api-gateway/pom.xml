@@ -14,6 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-gateway</name>
 	<description>API Gateway - Route 1 (Anggota 2) + Route 2 (Anggota 3) + JWT Global Filter (Anggota 4)</description>
+	<description>API Gateway - Reverse proxy + BFF routing ke service-a (User) dan service-b (Order)</description>
 
 	<properties>
 		<java.version>17</java.version>
@@ -23,6 +24,8 @@
 	<dependencies>
 		<!--
 		    Spring Cloud Gateway (reactive, berbasis WebFlux/Netty).
+		    Menyediakan RouteLocator, GatewayFilter, Predicate, dsb
+		    untuk membangun API Gateway.
 		-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -32,6 +35,9 @@
 		<!--
 		    Circuit Breaker (Resilience4j) - dipakai Route 1 & Route 2
 		    (kerjaan Anggota 2 & Anggota 3).
+		    Circuit Breaker (Resilience4j): membungkus setiap route
+		    supaya kalau service-a / service-b down, gateway tidak ikut
+		    hang dan bisa mengembalikan response fallback.
 		-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -39,6 +45,7 @@
 		</dependency>
 
 		<!-- Actuator: expose endpoint /actuator/gateway/routes -->
+		<!-- Actuator: expose endpoint /actuator/gateway/routes untuk verifikasi route yang aktif -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>

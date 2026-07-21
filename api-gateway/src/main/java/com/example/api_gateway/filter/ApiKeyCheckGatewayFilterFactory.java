@@ -7,6 +7,19 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+/**
+ * ApiKeyCheckGatewayFilterFactory — Filter KHUSUS yang dipasang hanya pada Route 2
+ * (Order Service), sebagai contoh "penanganan filter" yang berbeda per-route.
+ *
+ * Order Service dianggap data yang lebih sensitif (transaksi), sehingga setiap
+ * request yang MENGUBAH data (POST/PUT) wajib menyertakan header:
+ *   X-API-KEY: secret-order-key
+ *
+ * Jika header tidak ada / salah -> gateway langsung menolak dengan 401,
+ * request TIDAK diteruskan (short-circuit) ke service-b.
+ *
+ * Nama filter di application.yml: ApiKeyCheck
+ */
 @Component
 public class ApiKeyCheckGatewayFilterFactory
         extends AbstractGatewayFilterFactory<ApiKeyCheckGatewayFilterFactory.Config> {
@@ -23,6 +36,7 @@ public class ApiKeyCheckGatewayFilterFactory
             ServerHttpRequest request = exchange.getRequest();
             String method = request.getMethod() != null ? request.getMethod().name() : "";
 
+            // Hanya method yang mengubah data (write) yang divalidasi.
             boolean isWriteMethod = method.equals("POST") || method.equals("PUT") || method.equals("DELETE");
 
             if (isWriteMethod) {
@@ -42,6 +56,7 @@ public class ApiKeyCheckGatewayFilterFactory
         };
     }
 
+    /** Config kosong — filter ini tidak butuh parameter dari application.yml. */
     public static class Config {
     }
 }
